@@ -4,7 +4,7 @@
  * Description: Auto apply Custom coupon for a product
  * Version: 1.0
  * Author: Sibi
- * Text Domain: cc-custom-coupon
+ * Text Domain: cc-coupon-code
  */
 
 
