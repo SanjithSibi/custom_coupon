@@ -1,9 +1,9 @@
-<div id="cc-custom-coupon" class="panel woocommerce_options_panel hidden">
-    <?php _e('Enter the percentage', 'cc-custom-coupon');
-    ?>
-
-    <input type="number" id="discount_percentage" name="discount_percentage" value="<?php echo isset($Value) && !empty($Value) ? $Value:'';?>" min="1" max="100">
-
+<div id="contact-form">
+    <form action="" id="form" name="form" method="post">
+        <h1>Custom coupon</h1>
+        Enter the Percentage:<br>
+        <input type="number"  min="1" max="100" required><br><br>
+        <input type="submit" id="submit" class="Submit">
+    </form>
 
 </div>
-

@@ -4,8 +4,29 @@ namespace Cc\App\controller;
 
 class Base
 {
-    public function addFreeGiftTab($tabs){
+    public function addingMenu()
+    {
+        add_menu_page('Custom Coupon',
+            'Custom Coupon',
+            'manage_options',
+            'test-plugin',
+            array($this, 'form'));
 
+    }
+    function form()
+    {
+        wc_get_template( 'admin_product_edit.php', array(), '',WP_PLUGIN_DIR . '/custom_coupon/App/view/' );
+
+    }
+    function myScripts()
+    {
+    //    wp_enqueue_style( 'plugin-styles', FBT_PATH . '/Assets/css/frontend.css',__FILE__ );
+        wp_enqueue_script('bought-together', CC_PATH . '/Assets/js/coupon value.js', array('jquery'), '1.0', true);
+        wp_localize_script('bought-together', 'contactForm', array(
+            'ajaxUrl' => admin_url('admin-ajax.php')
+        ));
+    }
+    public function addFreeGiftTab($tabs){
         if(! is_array($tabs)) {
             return $tabs;
         }
@@ -30,23 +51,5 @@ class Base
         if(!empty($discount_value) ) {
             update_post_meta($post_id, '_cc_discount_percentage', $discount_value);
         }
-    }
-    function customPrice($cart_object)
-    {
-
-        if(!isset($cart_object) || ! is_object($cart_object) || ! method_exists(WC()->cart,'get_cart')){return;}
-        foreach ($cart_object->get_cart() as $key => $value) {
-            //print_r($value);
-            if(!is_array($value)){continue;}
-            $product_id=$value['product_id'];
-            $discount_value = get_post_meta( $product_id, '_cc_discount_percentage', true );
-            $price=$value['data']->get_price();
-            $discounted_price=(($price*$discount_value)/100)-$price;
-            if (!isset($value['data'])|| !is_object($value['data']) || ! method_exists( $value['data'], 'set_price' ) ) {continue;}
-            $value['data']->set_price($discounted_price);
-            }
-        }
-
-
-
+   }
 }

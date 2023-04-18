@@ -13,6 +13,9 @@
   <component name="PhpIncludePathManager">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/../../../.." />
+      <path value="$PROJECT_DIR$/../../../../plugins/woocommerce" />
+      <path value="$PROJECT_DIR$/../.." />
     </include_path>
   </component>
   <component name="PhpStanOptionsConfiguration">
