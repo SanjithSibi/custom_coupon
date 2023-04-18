@@ -1,12 +1,12 @@
 <?php
-
 /**
- * Plugin name:Custom Coupon
- * Plugin Description:Appling custom coupon for the products
- * version:1.0
- * Author:Sibi
- * Text Domain: custom-coupon
+ * Plugin Name: Custom Coupon
+ * Description: Auto apply Custom coupon for a product
+ * Version: 1.0
+ * Author: Sibi
+ * Text Domain: cc-custom-coupon
  */
+
 
 
 defined('ABSPATH') or exit();
