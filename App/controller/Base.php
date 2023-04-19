@@ -15,41 +15,32 @@ class Base
     }
     function form()
     {
+        $helo=CC_PATH . 'Assets/js/couponvalue.js';
+        echo $helo;
         wc_get_template( 'admin_product_edit.php', array(), '',WP_PLUGIN_DIR . '/custom_coupon/App/view/' );
-
-    }
-    function myScripts()
-    {
-    //    wp_enqueue_style( 'plugin-styles', FBT_PATH . '/Assets/css/frontend.css',__FILE__ );
-        wp_enqueue_script('bought-together', CC_PATH . '/Assets/js/coupon value.js', array('jquery'), '1.0', true);
-        wp_localize_script('bought-together', 'contactForm', array(
+        wp_enqueue_script('contact-form', CC_PATH . '/Assets/js/couponvalue.js', array('jquery'), '1.0', true);
+        wp_localize_script('contact-form', 'contactForm', array(
             'ajaxUrl' => admin_url('admin-ajax.php')
+
         ));
     }
-    public function addFreeGiftTab($tabs){
-        if(! is_array($tabs)) {
-            return $tabs;
-        }
-        $tabs['cc-coupon-code'] = array(
-            'label' => __('Auto Coupon', 'cc-coupon-code'),
-            'priority' => 50,
-            'target' => 'cc-custom-coupon',
-        );
-        return $tabs;
-    }
-    function woocommerceProductCustomFields()
+    function submitForm()
     {
-        global  $post;
-        if(! isset($post->ID) || (! is_numeric($post->ID))){ return ; }
-        $product_id = $post->ID;
-        $discount_value = get_post_meta( $product_id, '_cc_discount_percentage', true );
-        $value = (!empty($discount_value)) ? $discount_value : '';
-        wc_get_template( 'admin_product_edit.php', array('Value' => $value), '',WP_PLUGIN_DIR . '/custom_coupon/App/view/' );
+
+        $percent =$_POST['percent'];
+        echo $percent;
     }
-    function saveDiscountValueToDatabase( $post_id ) {
-        $discount_value = isset($_POST['discount_percentage']) ?  sanitize_text_field($_POST['discount_percentage']):'';
-        if(!empty($discount_value) ) {
-            update_post_meta($post_id, '_cc_discount_percentage', $discount_value);
+
+    function applyCustomDiscount( $cart ) {
+        if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
+            return;
         }
-   }
+
+        $discount_amount = $cart->get_subtotal() ;
+        $discount=$discount_amount-10;
+        $cart->add_fee( __( 'Coupon Discount', 'text-domain' ), -$discount );
+    }
+
+
+
 }
