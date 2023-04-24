@@ -42,22 +42,40 @@ class Base
 //            // The virtual coupon has been used
 //        }
     }
-    function myCustomCouponData( $data, $coupon ) {
-        // Modify the coupon data here
-        $coupon_code = 'MYCOUPON'; // Coupon code
-        $amount = '10'; // Amount off
-        $discount_type = 'fixed_cart'; // Type: fixed_cart, percent, fixed_product, percent_product
-        $expiry_date = strtotime( '+1 week' ); // Expiry date: +1 week from now
-
-        if ( ! woocommerce_coupon_code_exists( $coupon_code ) ) {
-            $coupon = new WC_Coupon();
-            $coupon->set_code( $coupon_code );
-            $coupon->set_discount_type( $discount_type );
-            $coupon->set_amount( $amount );
-            $coupon->set_date_expires( date( 'Y-m-d H:i:s', $expiry_date ) );
-            $coupon->save();
+    function myCustomCouponData($data) {
+ //       $data['my_custom_field'] = 'Some value';
+        $data = array(
+            'discount_type'              => 'fixed_cart',
+            'coupon_amount'              => 100, // value
+            'individual_use'             => 'no',
+            'product_ids'                => array(),
+            'exclude_product_ids'        => array(),
+            'usage_limit'                => '',
+            'usage_limit_per_user'       => '1',
+            'limit_usage_to_x_items'     => '',
+            'usage_count'                => '',
+            'expiry_date'                => '2018-09-01', // YYYY-MM-DD
+            'free_shipping'              => 'no',
+            'product_categories'         => array(),
+            'exclude_product_categories' => array(),
+            'exclude_sale_items'         => 'no',
+            'minimum_amount'             => '',
+            'maximum_amount'             => '',
+            'customer_email'             => array()
+        );
+        // Save the coupon in the database
+        $coupon = array(
+            'post_title' => $code,
+            'post_content' => '',
+            'post_status' => 'publish',
+            'post_author' => 1,
+            'post_type' => 'shop_coupon'
+        );
+        $new_coupon_id = wp_insert_post( $coupon );
+        // Write the $data values into postmeta table
+        foreach ($data as $key => $value) {
+            update_post_meta( $new_coupon_id, $key, $value );
         }
-//        $data['my_custom_field'] = 'Some value';
 
         return $data;
     }
