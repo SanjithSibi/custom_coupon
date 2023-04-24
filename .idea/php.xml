@@ -16,6 +16,10 @@
       <path value="$PROJECT_DIR$/../../../.." />
       <path value="$PROJECT_DIR$/../../../../plugins/woocommerce" />
       <path value="$PROJECT_DIR$/../.." />
+      <path value="$PROJECT_DIR$/.." />
+      <path value="$PROJECT_DIR$/../../../.." />
+      <path value="$PROJECT_DIR$/../../.." />
+      <path value="$PROJECT_DIR$/../../../.." />
     </include_path>
   </component>
   <component name="PhpStanOptionsConfiguration">
