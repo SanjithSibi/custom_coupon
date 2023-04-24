@@ -27,6 +27,7 @@ class Base
     {
 
         $percent = $_POST['percent'];
+        $id=$_POST['id'];
 
     }
         function addVirtualCoupon() {
@@ -41,6 +42,26 @@ class Base
 //            // The virtual coupon has been used
 //        }
     }
+    function myCustomCouponData( $data, $coupon ) {
+        // Modify the coupon data here
+        $coupon_code = 'MYCOUPON'; // Coupon code
+        $amount = '10'; // Amount off
+        $discount_type = 'fixed_cart'; // Type: fixed_cart, percent, fixed_product, percent_product
+        $expiry_date = strtotime( '+1 week' ); // Expiry date: +1 week from now
+
+        if ( ! woocommerce_coupon_code_exists( $coupon_code ) ) {
+            $coupon = new WC_Coupon();
+            $coupon->set_code( $coupon_code );
+            $coupon->set_discount_type( $discount_type );
+            $coupon->set_amount( $amount );
+            $coupon->set_date_expires( date( 'Y-m-d H:i:s', $expiry_date ) );
+            $coupon->save();
+        }
+//        $data['my_custom_field'] = 'Some value';
+
+        return $data;
+    }
+
 
 
 
