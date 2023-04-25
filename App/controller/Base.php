@@ -32,7 +32,9 @@ class Base
     }
         function addVirtualCoupon() {
         $coupon_code = 'VIRTUAL10';
-        $discount_amount = 10; // Change this to the amount of discount you want to offer
+        $discount_percent = 10;
+        $subtotal=WC()->cart->get_subtotal();
+        $discount_amount=($subtotal*$discount_percent)/100;
         if ( WC()->cart->has_discount( $coupon_code ) ) {
             return;
         }
@@ -41,43 +43,6 @@ class Base
 //        if ( WC()->session->get( 'virtual_coupon' ) === 'VIRTUAL10' ) {
 //            // The virtual coupon has been used
 //        }
-    }
-    function myCustomCouponData($data) {
- //       $data['my_custom_field'] = 'Some value';
-        $data = array(
-            'discount_type'              => 'fixed_cart',
-            'coupon_amount'              => 100, // value
-            'individual_use'             => 'no',
-            'product_ids'                => array(),
-            'exclude_product_ids'        => array(),
-            'usage_limit'                => '',
-            'usage_limit_per_user'       => '1',
-            'limit_usage_to_x_items'     => '',
-            'usage_count'                => '',
-            'expiry_date'                => '2018-09-01', // YYYY-MM-DD
-            'free_shipping'              => 'no',
-            'product_categories'         => array(),
-            'exclude_product_categories' => array(),
-            'exclude_sale_items'         => 'no',
-            'minimum_amount'             => '',
-            'maximum_amount'             => '',
-            'customer_email'             => array()
-        );
-        // Save the coupon in the database
-        $coupon = array(
-            'post_title' => $code,
-            'post_content' => '',
-            'post_status' => 'publish',
-            'post_author' => 1,
-            'post_type' => 'shop_coupon'
-        );
-        $new_coupon_id = wp_insert_post( $coupon );
-        // Write the $data values into postmeta table
-        foreach ($data as $key => $value) {
-            update_post_meta( $new_coupon_id, $key, $value );
-        }
-
-        return $data;
     }
 
 
