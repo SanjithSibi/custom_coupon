@@ -11,7 +11,10 @@ class Router
     public function hooks(){
         $base=new Base();
         add_action('admin_menu', array($base, 'addingMenu'));
-        add_action('wp_ajax_submitForm', array($base, 'submitForm'));
+       // add_action('wp_ajax_submitForm', array($base, 'submitForm'));
+        add_action('wp_ajax_my_ajax_handler', array($base,'my_ajax_handler'));
+        add_action('wp_ajax_nopriv_my_ajax_handler',array($base, 'my_ajax_handler')); // This line is needed if you want to allow non-logged in users to use the AJAX endpoint.
+
         add_action( 'woocommerce_cart_calculate_fees', array($base,'addVirtualCoupon' ));
         //add_filter( 'woocommerce_get_shop_coupon_data', array($base,'myCustomCouponData'));
 
