@@ -22,6 +22,19 @@ class Base
          'nonce' => wp_create_nonce('ajaxnonce')));
 
     }
+    function myActionCallback() {
+        $response = array( 'success' => false );
+        $nonce = $_POST['nonce'];
+        if ( ! wp_verify_nonce( $nonce, 'my_ajax_nonce' ) ) {
+            wp_send_json_error( 'Invalid nonce' );
+            exit();}
+        $percent = $_POST['percent'];
+        $id=$_POST['id'];
+        $response['success'] = true;
+        $response['data'] = 'Some data';
+        wp_send_json( $response );
+    }
+
     function submitForm()
     {
         $nonce = $_POST['nonce'];
@@ -30,26 +43,18 @@ class Base
             exit();
         }
     }
-    function my_ajax_handler() {
-        $percent = $_POST['percent'];
-        $id=$_POST['id'];
-        echo $percent;
-        wp_die();
-    }
     function addVirtualCoupon() {
-        $percent = $_POST['percent'];
-        $id=$_POST['id'];
-        echo $id;
         $coupon_code = 'VIRTUAL10';
         $discount_percent = 10;
+        if (! method_exists( WC()->cart, 'get_subtotal' ) ) {return;}
         $subtotal=WC()->cart->get_subtotal();
         $discount_amount=($subtotal*$discount_percent)/100;
-        if ( WC()->cart->has_discount( $coupon_code ) ) {
-            return;
-        }
-        WC()->cart->add_fee( __( 'Virtual Coupon', 'woocommerce' ), -$discount_amount );
+        if (! method_exists( WC()->cart, 'has_discount' ) ||  WC()->cart->has_discount( $coupon_code ) ) {return;}
+        if (! method_exists( WC()->cart, 'add_fee' ) ) {return;}
+        WC()->cart->add_fee( __( 'Coupon', 'woocommerce' ), -$discount_amount );
+        if (! method_exists( WC()->session, 'set' ) ) {return;}
         WC()->session->set( 'virtual_coupon', $coupon_code );
-//        if ( WC()->session->get( 'virtual_coupon' ) === 'VIRTUAL10' ) {
+//        if ( WC()->session->get( 'virtual_coupon' ) === $coupon_code ) {
 //            // The virtual coupon has been used
 //        }
     }
