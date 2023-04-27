@@ -8,7 +8,7 @@ class Base
 {
     public function addingMenu()
     {
-        add_menu_page('Custom Coupon',
+        add_menu_page(__('Custom Coupon','cc-coupon-code'),
             __('Custom Coupon', 'cc-coupon-code'),
             'manage_options',
             'test-plugin',
@@ -42,7 +42,7 @@ class Base
         $discount_amount=($subtotal*$discount_percent)/100;
         if (! method_exists( WC()->cart, 'has_discount' ) ||  WC()->cart->has_discount( $coupon_code ) ) {return;}
         if (! method_exists( WC()->cart, 'add_fee' ) ) {return;}
-        WC()->cart->add_fee( __( 'Coupon', 'woocommerce' ), -$discount_amount );
+        WC()->cart->add_fee( __( 'Coupon', 'cc-coupon-code' ), -$discount_amount );
         if (! method_exists( WC()->session, 'set' ) ) {return;}
         WC()->session->set( 'virtual_coupon', $coupon_code );
 //        if ( WC()->session->get( 'virtual_coupon' ) === $coupon_code ) {
