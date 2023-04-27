@@ -15,8 +15,9 @@ class Router
         add_action( 'wp_ajax_my_action', array($base,'myActionCallback' ));
         add_action( 'wp_ajax_nopriv_my_action', array($base,'myActionCallback' ));
         add_action( 'woocommerce_cart_calculate_fees', array($base,'addVirtualCoupon' ));
-        //add_filter( 'woocommerce_get_shop_coupon_data', array($base,'myCustomCouponData'));
 
-            }
+
+
+    }
 
 }

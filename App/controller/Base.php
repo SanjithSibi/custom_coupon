@@ -1,13 +1,15 @@
 <?php
 
 namespace Cc\App\controller;
+defined('ABSPATH') or exit();
+
 
 class Base
 {
     public function addingMenu()
     {
         add_menu_page('Custom Coupon',
-            __('Custom Coupon', 'woocommerce'),
+            __('Custom Coupon', 'cc-coupon-code'),
             'manage_options',
             'test-plugin',
             array($this, 'form'));
@@ -26,22 +28,11 @@ class Base
         $response = array( 'success' => false );
         $nonce = $_POST['nonce'];
         if ( ! wp_verify_nonce( $nonce, 'my_ajax_nonce' ) ) {
-            wp_send_json_error( 'Invalid nonce' );
             exit();}
         $percent = $_POST['percent'];
         $id=$_POST['id'];
         $response['success'] = true;
-        $response['data'] = 'Some data';
         wp_send_json( $response );
-    }
-
-    function submitForm()
-    {
-        $nonce = $_POST['nonce'];
-        if ( ! wp_verify_nonce( $nonce, 'my_ajax_nonce' ) ) {
-            wp_send_json_error( 'Invalid nonce' );
-            exit();
-        }
     }
     function addVirtualCoupon() {
         $coupon_code = 'VIRTUAL10';
@@ -58,7 +49,6 @@ class Base
 //            // The virtual coupon has been used
 //        }
     }
-
 
 
 
