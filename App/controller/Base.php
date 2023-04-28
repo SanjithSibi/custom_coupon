@@ -15,6 +15,12 @@ class Base
             array($this, 'form'));
 
     }
+//    function processProductMeta(  ) {
+//        if (!empty( $_POST['product_name'] ) ) {
+//            update_post_meta( $post_id, '_product_name', ( $_POST['product_name'] ) );
+//        }
+//
+//    }
     function form()
     {
         wc_get_template('add_coupon.php', array(), '', WP_PLUGIN_DIR . '/custom_coupon/App/view/');
@@ -32,11 +38,12 @@ class Base
         $percent = $_POST['percent'];
         $id=$_POST['id'];
         $response['success'] = true;
+        update_post_meta($id,'_coupon_value',$percent);
         wp_send_json( $response );
     }
     function addVirtualCoupon() {
         $coupon_code = 'VIRTUAL10';
-        $discount_percent = 10;
+        $discount_percent = 20;
         if (! method_exists( WC()->cart, 'get_subtotal' ) ) {return;}
         $subtotal=WC()->cart->get_subtotal();
         $discount_amount=($subtotal*$discount_percent)/100;
@@ -49,7 +56,23 @@ class Base
 //            // The virtual coupon has been used
 //        }
     }
+    function myCustomCouponData( $data, $coupon ) {
+        $data['type'] = 'virtual';
+        $data['code'] = 'VIRTUAL';
+        $data['discount_type'] = 'percent';
+        $data['amount'] = 20;
+        $data['usage_limit'] = 1;
+        // Remove the "Individual use only" checkbox option
+        unset( $data['individual_use'] );
+        // Remove the "Exclude sale items" checkbox option
+        unset( $data['exclude_sale_items'] );
+       // WC()->cart->apply_coupon( $data['code'] );
 
+
+
+        // Return the modified data
+        return $data;
+    }
 
 
 }

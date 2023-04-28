@@ -3,7 +3,6 @@ jQuery(document).ready(function($) {
         var percent=$('#percentage').val();
         var id=$('#id').val();
         var nonce = $('#my_nonce').val();
-        alert(percent);
         // $.ajax({
         //     type: 'post',
         //     url: contactForm.ajaxUrl,
@@ -19,11 +18,9 @@ jQuery(document).ready(function($) {
             url: contactForm.ajaxurl,
             data: {
                 action: 'my_action',
-                percent: percent,
-                nonce:nonce,
             },
             success: function(response) {
-                console.log(response);
+                alert(response);
             },
         });
 
